@@ -5,12 +5,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.DBUtil;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 
+import util.DBUtil;
 
 public class BookMethod {
 
-	public void addBook() {
+	public void addBook(Book book) throws Exception {
+		java.sql.Connection conn = DBUtil.getConnection();
+		String sql = "" + "insert into book_information" + "(name,price,author,id)" + "values(" + "?,?,?,?)";
+		java.sql.PreparedStatement ptmt = conn.prepareStatement(sql);//‘§±‡“Î
+		
+		ptmt.setString(1, book.getName());
+		ptmt.setInt(2, book.getPrice());
+		ptmt.setString(3, book.getAuthor());
+		ptmt.setInt(4, book.getId());
+		ptmt.execute();
 	}
 
 	public void updateBook() {
