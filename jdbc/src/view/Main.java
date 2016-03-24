@@ -19,6 +19,12 @@ public class Main {
 		for (Book b : book) {
 			System.out.println("name:"+b.getName()+" id:"+b.getId()+" price:"+b.getPrice()+" author:"+b.getAuthor());
 		}
+		control.delBook(2);
+        book = control.query();
+
+		for (Book b : book) {
+			System.out.println("name:"+b.getName()+" id:"+b.getId()+" price:"+b.getPrice()+" author:"+b.getAuthor());
+		}
 		
 	}
 }

@@ -15,8 +15,8 @@ public class BookMethod {
 	public void addBook(Book book) throws Exception {
 		java.sql.Connection conn = DBUtil.getConnection();
 		String sql = "" + "insert into book_information" + "(name,price,author,id)" + "values(" + "?,?,?,?)";
-		java.sql.PreparedStatement ptmt = conn.prepareStatement(sql);//‘§±‡“Î
-		
+		java.sql.PreparedStatement ptmt = conn.prepareStatement(sql);// ‘§±‡“Î
+
 		ptmt.setString(1, book.getName());
 		ptmt.setInt(2, book.getPrice());
 		ptmt.setString(3, book.getAuthor());
@@ -24,12 +24,28 @@ public class BookMethod {
 		ptmt.execute();
 	}
 
-	public void updateBook() {
+	public void updateBook(Book book) throws Exception {
+		java.sql.Connection conn = DBUtil.getConnection();
+		String sql = "" + " update book_information " 
+		+ " set name=?,price=?,author=? " 
+		+ " where id=? ";
+		java.sql.PreparedStatement ptmt = conn.prepareStatement(sql);// ‘§±‡“Î
 
+		ptmt.setString(1, book.getName());
+		ptmt.setInt(2, book.getPrice());
+		ptmt.setString(3, book.getAuthor());
+		ptmt.setInt(4, book.getId());
+		ptmt.execute();
 	}
 
-	public void delBook() {
+	public void delBook(int id) throws Exception{
+		java.sql.Connection conn = DBUtil.getConnection();
+		String sql = "" + " delete from book_information " 
+		+ " where id=? ";
+		java.sql.PreparedStatement ptmt = conn.prepareStatement(sql);// ‘§±‡“Î
 
+		ptmt.setInt(1, id);
+		ptmt.execute();
 	}
 
 	public List<Book> query() throws SQLException {
@@ -51,7 +67,22 @@ public class BookMethod {
 		return books;
 	}
 
-	public Book get() {
-		return null;
+	public Book get(Integer id) throws Exception{
+		Book b = null;
+		java.sql.Connection conn = DBUtil.getConnection();
+		String sql = "" + " select * from book_information " 
+		+ " where id=? ";
+		java.sql.PreparedStatement ptmt = conn.prepareStatement(sql);// ‘§±‡“Î
+
+		ptmt.setInt(1, id);
+		ResultSet rs = ptmt.executeQuery();
+		while (rs.next()) {
+			b = new Book();
+			b.setId(rs.getInt("id"));
+			b.setAuthor(rs.getString("author"));
+			b.setName(rs.getString("name"));
+			b.setPrice(rs.getInt("price"));
+		}
+		return b;
 	}
 }
