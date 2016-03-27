@@ -67,6 +67,36 @@ public class BookMethod {
 		return books;
 	}
 
+	public List<Book> query(String name,int id,int price) throws SQLException {
+		java.sql.Connection conn = DBUtil.getConnection();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("select * from book_information");
+		sb.append(" where name like ? and id like ? and price like ?");
+		
+		
+		java.sql.PreparedStatement ptmt = conn.prepareStatement(sb.toString());
+		ptmt.setString(1, "%"+name+"%");
+		ptmt.setString(2, "%"+id+"%");
+		ptmt.setString(3, "%"+price+"%");
+		
+		ResultSet rs = ptmt.executeQuery();
+
+		List<Book> books = new ArrayList<Book>();
+		Book book = null;
+		while (rs.next()) {
+			book = new Book();
+			book.setId(rs.getInt("id"));
+			book.setName(rs.getString("name"));
+			book.setPrice(rs.getInt("price"));
+			book.setAuthor(rs.getString("author"));
+			books.add(book);
+		}
+
+		return books;
+	}
+
+	
 	public Book get(Integer id) throws Exception{
 		Book b = null;
 		java.sql.Connection conn = DBUtil.getConnection();

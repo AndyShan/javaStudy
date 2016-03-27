@@ -3,28 +3,20 @@ package view;
 import java.sql.SQLException;
 import java.util.List;
 
+import controller.BookController;
 import model.Book;
 import model.BookMethod;
 
 public class Main {
 	public static void main(String args[]) throws Exception {
-		BookMethod control = new BookMethod();
-		List<Book> book = control.query();
-		Book newBook = new Book();
-		newBook.setAuthor("Ê©ÄÍâÖ");
-		newBook.setName("Ë®ä°´«");
-		newBook.setPrice(100);
-		newBook.setId(4);
-		control.addBook(newBook);
-		for (Book b : book) {
-			System.out.println("name:"+b.getName()+" id:"+b.getId()+" price:"+b.getPrice()+" author:"+b.getAuthor());
-		}
-		control.delBook(2);
-        book = control.query();
+		BookController controller = new BookController();
+		List<Book> books = controller.query();
 
-		for (Book b : book) {
-			System.out.println("name:"+b.getName()+" id:"+b.getId()+" price:"+b.getPrice()+" author:"+b.getAuthor());
+		for (Book i : books) {
+			System.out.print(i.getId() + " ");
+			System.out.print(i.getName() + " ");
+			System.out.print(i.getPrice() + " ");
+			System.out.print(i.getAuthor() + " ");
 		}
-		
 	}
 }
